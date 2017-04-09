@@ -1,0 +1,50 @@
+// 554. Brick Wall
+// https://leetcode.com/contest/leetcode-weekly-contest-27/problems/brick-wall/
+int compare(const void* a, const void *b)
+{
+    int l = *((int*)a);
+    int r = *((int*)b);
+
+    if (l == r){
+        return 0;
+    }
+
+    return l < r ? -1 : 1;
+}
+
+int leastBricks(int** wall, int wallRowSize, int *wallColSizes) {
+    int i,j,k=0;
+    int bricks[20000] = {0};
+    int max_count, temp_count;
+    for(i=0;i<wallRowSize;i++) {
+        if(wallColSizes[i] > 1) {
+            bricks[k] = wall[i][0];
+            //printf("brick[%d] %d ", k, bricks[k]);
+            k++;
+        }
+    }
+
+    for(i=0;i<wallRowSize;i++) {    
+        for(j=1;j<wallColSizes[i]-1;j++) {
+            wall[i][j] += wall[i][j-1];
+            bricks[k] = wall[i][j] ;
+            //printf("brick[%d] %d ", k, bricks[k]);
+            k++;
+        }
+    }
+    qsort(bricks, k, sizeof(int), compare);
+    
+    max_count = 1;
+    temp_count = 1;
+    for(i=1;i<k;i++) {
+        if(bricks[i] != bricks[i-1]) {
+            max_count = max_count > temp_count ? max_count : temp_count;
+            temp_count = 1;
+        } else
+            temp_count++;
+    }
+    
+    max_count = max_count > temp_count ? max_count : temp_count;
+        
+    return k == 0 ? wallRowSize : wallRowSize - max_count;
+}
