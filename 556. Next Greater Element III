@@ -1,0 +1,13 @@
+// 556. Next Greater Element III
+// https://leetcode.com/contest/leetcode-weekly-contest-27/problems/next-greater-element-iii
+class Solution {
+public:
+    int nextGreaterElement(int n) {
+        string t,s=to_string(n);
+        t=s;
+        next_permutation(s.begin(),s.end());
+        if(s<=t) return -1;
+        long num=stol(s);
+            return num>INT_MAX? -1:num;
+    }
+};
