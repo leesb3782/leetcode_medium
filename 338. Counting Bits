@@ -1,0 +1,27 @@
+// 338. Counting Bits
+// https://leetcode.com/problems/counting-bits
+/**
+ * Return an array of size *returnSize.
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* countBits(int num, int* returnSize) {
+    int *answer = (int *)malloc((num+1)*sizeof(int));
+    int i, factor, power;
+    
+    
+    answer[0] = 0;
+    *returnSize = num + 1;
+    for(i=1;i<=num;i++) {
+        if(i==1)
+            answer[i] = 1;
+        else {
+            factor = log2(i);
+            power = pow(2, factor);
+            if((i-power) == 0)
+                answer[i] = 1;
+            else
+                answer[i] = answer[power] + answer[i-power];
+        }
+    }
+    return answer;
+}
