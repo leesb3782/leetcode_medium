@@ -1,0 +1,26 @@
+// 537. Complex Number Multiplication
+// https://leetcode.com/problems/complex-number-multiplication
+char* complexNumberMultiply(char* a, char* b) {
+    int aa, ab, ba, bb;
+    char *pch;
+    char result[20] = {0};
+    int result_len;
+    char *answer;
+    pch = strtok(a, "+");
+    aa = atoi(pch);
+    pch = strtok(NULL, "i");
+    ab = atoi(pch);
+    
+    pch = strtok(b, "+");
+    ba = atoi(pch);
+    pch = strtok(NULL, "i");
+    bb = atoi(pch);
+    
+    //printf("aa %d, ab %d, ba %d, bb %d\n", aa, ab, ba, bb);
+    snprintf(result, 20, "%d+%di", aa * ba - ab * bb, aa * bb + ab * ba);
+    //printf("aa %d, ab %d, ba %d, bb %d, result %s\n", aa, ab, ba, bb, result);
+    result_len = strlen(result);
+    answer = (char *)malloc((result_len+1)*sizeof(char));
+    strncpy(answer, result, result_len+1);
+    return answer;
+}
