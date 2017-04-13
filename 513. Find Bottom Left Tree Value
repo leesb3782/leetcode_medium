@@ -1,0 +1,49 @@
+// 513. Find Bottom Left Tree Value
+// https://leetcode.com/problems/find-bottom-left-tree-value
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+int BinaryTreeTraversal(struct TreeNode* node, int depth, int *lowest_depth) {
+    int left_value, right_value;
+    int left_lowest_depth = depth, right_lowest_depth = depth;  
+    if(node->left == NULL && node->right == NULL) {
+        *lowest_depth = depth;
+        return node->val;
+    }
+    if(node->left != NULL)
+        left_value = BinaryTreeTraversal(node->left, depth + 1, &left_lowest_depth);
+    if(node->right != NULL)
+        right_value = BinaryTreeTraversal(node->right, depth + 1, &right_lowest_depth);
+    
+    if(left_lowest_depth >= right_lowest_depth) {
+        *lowest_depth = left_lowest_depth;
+        return left_value;
+    } else {
+        *lowest_depth = right_lowest_depth;
+        return right_value;
+    }
+    
+}
+int findBottomLeftValue(struct TreeNode* root) {
+    int left_value, right_value;
+    int left_lowest_depth = 0, right_lowest_depth = 0;
+    if(root == NULL)
+        return 0;
+    if(root->left == NULL && root->right == NULL)
+        return root->val;
+    if(root->left != NULL)
+        left_value = BinaryTreeTraversal(root->left, 1, &left_lowest_depth);
+    if(root->right != NULL)
+        right_value = BinaryTreeTraversal(root->right, 1, &right_lowest_depth);
+        
+    if(left_lowest_depth >= right_lowest_depth) {
+        return left_value;
+    } else {
+        return right_value;
+    }    
+}
