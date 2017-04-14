@@ -1,0 +1,61 @@
+// 515. Find Largest Value in Each Tree Row
+// https://leetcode.com/problems/find-largest-value-in-each-tree-row
+struct TreeNodeLevel {
+    TreeNode *node;
+    int level;
+};
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> largestValues(TreeNode* root) {
+        vector<int> answer;
+        int cur_level = 0, max;
+
+        if(root == NULL)
+            return answer;
+        queue<TreeNodeLevel> q;
+        TreeNodeLevel p;
+        TreeNodeLevel child;
+        
+        max = root->val;
+        p.node = root;
+        p.level = 0;
+        q.push(p);
+        
+        // BFS
+        while(!q.empty()) {
+            p = q.front();
+            q.pop();
+            
+            if(p.node == NULL)
+                continue;
+            else {
+                if(cur_level < p.level) {
+                    answer.push_back(max);
+                    cur_level = p.level;
+                    max = p.node->val;
+                } else {
+                    max = max > p.node->val ? max : p.node->val;
+                }
+        
+                child.node = p.node->left;
+                child.level = p.level+1;
+                q.push(child);
+                
+                child.node = p.node->right;
+                child.level = p.level+1;
+                q.push(child);
+            }
+        }
+        answer.push_back(max);
+        return answer;
+    }
+};
