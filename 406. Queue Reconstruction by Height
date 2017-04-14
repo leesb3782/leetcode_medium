@@ -1,0 +1,56 @@
+// 406. Queue Reconstruction by Height
+// https://leetcode.com/problems/queue-reconstruction-by-height
+int compare(const void* a, const void *b)
+{
+    int* l = *(int**)a;
+    int* r = *(int**)b;
+
+    if (l[0] == r[0]){
+        return 0;
+    }
+
+    return l[0] < r[0] ? -1 : 1;
+}
+
+/**
+ * Return an array of arrays of size *returnSize.
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int** reconstructQueue(int** people, int peopleRowSize, int peopleColSize, int* returnSize) {
+    int i,j,p_count;
+    int **answer;   
+
+    if(peopleRowSize == 0)
+        return NULL;
+        
+    answer = (int **) malloc(peopleRowSize * sizeof(int *));
+    for(i=0;i<peopleRowSize;i++) {
+        answer[i] = (int *) malloc(peopleColSize * sizeof(int));
+        memset(answer[i], -1, peopleColSize * sizeof(int));
+        //printf("answer[%d] %d, %d\n", i , answer[i][0], answer[i][1]);
+    }
+    
+    *returnSize = peopleRowSize;
+    
+    qsort(people, peopleRowSize, sizeof(int *), compare);
+    for(i=0;i<peopleRowSize;i++) {
+        //printf("people[%d] %d, %d\n", i, people[i][0], people[i][1]);
+        for(j=0,p_count = people[i][1];j<peopleRowSize;j++) {
+            //printf("answer[%d][0] %d, p_count %d\n", j, answer[j][0], p_count);
+            if(p_count > 0) {
+                if(answer[j][0] == -1 || answer[j][0] >= people[i][0]) {
+                    p_count--;
+                }
+                continue;
+            } else { //p_count == 0
+                if(answer[j][0] == -1) {
+                    answer[j][0] = people[i][0];
+                    answer[j][1] = people[i][1];
+                    break;
+                }
+            }
+        }
+    }
+ 
+    return answer;
+}
