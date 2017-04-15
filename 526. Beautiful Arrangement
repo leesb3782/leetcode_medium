@@ -1,0 +1,29 @@
+// 526. Beautiful Arrangement
+// https://leetcode.com/problems/beautiful-arrangement
+class Solution {
+public:
+    int helper(int N, int pos, int* used) {
+        int count = 0;
+        
+        if (pos > N) {
+            return 1;
+        }
+        
+        for (int i = 1; i <= N; i++) {
+            if (used[i] == 0 && (i % pos == 0 || pos % i == 0)) {
+                used[i] = 1;
+                count += helper(N, pos + 1, used);
+                used[i] = 0;
+            }
+        }
+        return count;
+    }
+    int countArrangement(int N) {
+        int answer;
+        int *used = new int[N + 1]();
+        if (N == 0) return 0;
+        answer = helper(N, 1, used);
+        return answer;
+    }
+
+};
