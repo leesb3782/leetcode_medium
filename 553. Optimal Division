@@ -1,0 +1,26 @@
+// 553. Optimal Division
+// https://leetcode.com/problems/optimal-division
+class Solution {
+public:
+    string optimalDivision(vector<int>& nums) {
+        string answer;
+        int i, len = nums.size();
+        
+        if(len == 1) {
+            answer = to_string(nums[0]);
+        } else if(len == 2) {
+            answer = to_string(nums[0]) + "/" + to_string(nums[1]);
+        } else {
+            for(i=0;i<len;i++) {
+                if(i==0)
+                    answer = to_string(nums[0]);
+                else if(i==1)
+                    answer += "/(" + to_string(nums[1]);
+                else
+                    answer += "/" + to_string(nums[i]);
+            }
+            answer += ")";
+        }
+        return answer;
+    }
+};
