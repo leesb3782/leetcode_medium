@@ -1,0 +1,127 @@
+// 529. Minesweeper
+// https://leetcode.com/problems/minesweeper
+class Solution {
+public:
+    vector<vector<char>> updateBoard(vector<vector<char>>& board, vector<int>& click) {
+        int count = 0;
+        vector<int> next_click(2, 0);
+        
+        if(board[click[0]][click[1]] == 'M') {
+            board[click[0]][click[1]] = 'X';
+            return board;
+        }
+        
+        //cout << "row" << board.size() << "column" << board[0].size() <<endl;
+        
+        // Top
+        if(click[0] - 1 >= 0) {
+            if(click[1] - 1 >= 0) {
+                if(board[click[0] - 1][click[1] - 1] == 'M')
+                    count++;
+            }
+            if(click[1] + 1 < board[0].size()) {
+                if(board[click[0] - 1][click[1] + 1] == 'M')
+                    count++;
+            }
+            if(board[click[0] - 1][click[1]] == 'M')
+                count++;            
+        }
+
+        // Middle
+        if(click[1] - 1 >= 0) {
+            if(board[click[0]][click[1] - 1] == 'M')
+                count++;
+        }
+        if(click[1] + 1 < board[0].size()) {
+            if(board[click[0]][click[1] + 1] == 'M')
+                count++;
+        }
+        
+        // Bottom
+        if(click[0] + 1 < board.size()) {
+            if(click[1] - 1 >= 0) {
+                if(board[click[0] + 1][click[1] - 1] == 'M')
+                    count++;
+            }
+            if(click[1] + 1 < board[0].size()) {
+                if(board[click[0] + 1][click[1] + 1] == 'M')
+                    count++;
+            }
+            if(board[click[0] + 1][click[1]] == 'M')
+                count++;            
+        }
+        
+        //cout << count << endl;
+        
+        if(count > 0) {
+            board[click[0]][click[1]] = '0'+ count;
+            return board;
+        }
+        
+        board[click[0]][click[1]] = 'B';
+
+        // Top
+        if(click[0] - 1 >= 0) {
+            if(click[1] - 1 >= 0) {
+                if(board[click[0] - 1][click[1] - 1] == 'E') {
+                    next_click[0] = click[0] - 1;
+                    next_click[1] = click[1] - 1;
+                    updateBoard(board, next_click);
+                }
+            }
+            if(click[1] + 1 < board[0].size()) {
+                if(board[click[0] - 1][click[1] + 1] == 'E') {
+                    next_click[0] = click[0] - 1;
+                    next_click[1] = click[1] + 1;
+                    updateBoard(board, next_click);
+                }
+            }
+            if(board[click[0] - 1][click[1]] == 'E') {
+                next_click[0] = click[0] - 1;
+                next_click[1] = click[1];
+                updateBoard(board, next_click);
+            }
+        }
+
+        // Middle
+        if(click[1] - 1 >= 0) {
+            if(board[click[0]][click[1] - 1] == 'E') {
+                next_click[0] = click[0];
+                next_click[1] = click[1] - 1;
+                updateBoard(board, next_click);                
+            }
+        }
+        if(click[1] + 1 < board[0].size()) {
+            if(board[click[0]][click[1] + 1] == 'E') {
+                next_click[0] = click[0];
+                next_click[1] = click[1] + 1;
+                updateBoard(board, next_click);
+            }
+        }
+        
+        // Bottom
+        if(click[0] + 1 < board.size()) {
+            if(click[1] - 1 >= 0) {
+                if(board[click[0] + 1][click[1] - 1] == 'E') {
+                    next_click[0] = click[0] + 1;
+                    next_click[1] = click[1] - 1;
+                    updateBoard(board, next_click);
+                }
+            }
+            if(click[1] + 1 < board[0].size()) {
+                if(board[click[0] + 1][click[1] + 1] == 'E') {
+                    next_click[0] = click[0] + 1;
+                    next_click[1] = click[1] + 1;
+                    updateBoard(board, next_click);
+                }
+            }
+            if(board[click[0] + 1][click[1]] == 'E') {
+                next_click[0] = click[0] + 1;
+                next_click[1] = click[1];
+                updateBoard(board, next_click);
+            }
+        }        
+        
+        return board;
+    }
+};
