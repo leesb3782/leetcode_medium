@@ -1,0 +1,51 @@
+// 508. Most Frequent Subtree Sum
+// https://leetcode.com/problems/most-frequent-subtree-sum
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int findTreeSum(TreeNode* node, map<int,int>& mymap, int& max_count) {
+        int left_sum, right_sum, sum, count;
+        map<int,int>::iterator it;
+        if(node == NULL)
+            return 0;
+        
+        left_sum = findTreeSum(node->left, mymap, max_count);
+        right_sum = findTreeSum(node->right, mymap, max_count);
+        sum  = left_sum + right_sum + node->val;
+        it = mymap.find(sum);
+        if(it == mymap.end()) {
+            mymap.insert(pair<int,int>(sum, 1));
+        } else {
+            it->second++;
+            max_count = max_count > it->second ? max_count : it->second;
+        }
+        return sum;
+    }
+
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        map<int,int> mymap;
+        vector<int> result;
+        int max_count = 1;
+        if(root == NULL)
+            return result;
+            
+        findTreeSum(root, mymap, max_count);
+        //cout << max_count << endl;
+        // show content:
+        for (map<int,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it) {
+            //cout << it->first << " => " << it->second << '\n';
+            if(it->second == max_count)
+                result.push_back(it->first);
+        }
+        
+        return result;
+    }
+};
