@@ -1,0 +1,29 @@
+// 538. Convert BST to Greater Tree
+// https://leetcode.com/problems/convert-bst-to-greater-tree
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    int convertBSThelper(TreeNode* node, int p_sum) {
+        if(node == NULL)
+            return 0;
+        if(node->right != NULL)
+            p_sum = convertBSThelper(node->right, p_sum);
+        node->val += p_sum;
+        return node->left == NULL ? node->val : convertBSThelper(node->left, node->val);
+    }
+    TreeNode* convertBST(TreeNode* root) {
+        int sum;
+        if(root != NULL) {
+            convertBSThelper(root, 0);
+        }
+        return root;
+    }
+};
