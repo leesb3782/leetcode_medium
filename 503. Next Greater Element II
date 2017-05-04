@@ -1,0 +1,23 @@
+// 503. Next Greater Element II
+// https://leetcode.com/problems/next-greater-element-ii
+class Solution {
+public:
+    vector<int> nextGreaterElements(vector<int>& nums) {
+        int i, j, n = nums.size();
+        vector<int> circular = nums;
+        vector<int> result(n);
+        circular.insert(circular.end(), nums.begin(), nums.end());
+        
+        for(i=0;i<n;i++) {
+            for(j=i;j<i+n;j++) {
+                if(circular[j] > circular[i]) {
+                    result[i] = circular[j];
+                    break;
+                }
+            }
+            if(j==i+n)
+                result[i] = -1;
+        }
+        return result;
+    }
+};
