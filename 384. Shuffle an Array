@@ -1,0 +1,39 @@
+// 384. Shuffle an Array
+// https://leetcode.com/problems/shuffle-an-array/
+class Solution {
+private:
+    vector<int> origin;
+    vector<int> shuffled;
+    int len;
+public:
+    Solution(vector<int> nums) {
+        origin = nums;
+        shuffled = nums;
+        len = nums.size();
+        srand(time(NULL));
+    }
+    
+    /** Resets the array to its original configuration and return it. */
+    vector<int> reset() {
+        return origin;
+    }
+    
+    /** Returns a random shuffling of the array. */
+    vector<int> shuffle() {
+        int i, j, temp;
+        for(i=0;i<len;i++) {
+            j = rand()%len;
+            temp = shuffled[i];
+            shuffled[i] = shuffled[j];
+            shuffled[j] = temp;
+        }
+        return shuffled;
+    }
+};
+
+/**
+ * Your Solution object will be instantiated and called as such:
+ * Solution obj = new Solution(nums);
+ * vector<int> param_1 = obj.reset();
+ * vector<int> param_2 = obj.shuffle();
+ */
