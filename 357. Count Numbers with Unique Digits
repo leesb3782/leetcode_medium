@@ -1,0 +1,16 @@
+// 357. Count Numbers with Unique Digits
+// https://leetcode.com/problems/count-numbers-with-unique-digits/
+class Solution {
+public:
+    int countNumbersWithUniqueDigits(int n) {
+        int result = 10;
+        int i, temp = 9;
+        if(n==0)
+            return 1;
+        for(i=1;i<n&&i<10;i++) {
+            temp *= (10 - i);
+            result+=temp;
+        }
+        return result;
+    }
+};
