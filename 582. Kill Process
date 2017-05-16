@@ -1,0 +1,30 @@
+// 582. Kill Process
+// https://leetcode.com/problems/kill-process/
+class Solution {
+public:
+    vector<int> killProcess(vector<int>& pid, vector<int>& ppid, int kill) {
+        int i, len = pid.size(), kill_pid;
+        unordered_map<int, vector<int>> mymap;
+        queue<int> bfs;
+        vector<int> result;
+        vector<int> temp;
+        for(i=0;i<len;i++) {
+            mymap[ppid[i]].push_back(pid[i]);
+        }
+        
+        result.push_back(kill);
+        bfs.push(kill);
+        
+        while(!bfs.empty()) {
+            kill_pid = bfs.front();
+            bfs.pop();
+            temp = mymap[kill_pid];
+            len = temp.size();
+            for(i=0;i<len;i++) {
+                result.push_back(temp[i]);
+                bfs.push(temp[i]);
+            }
+        }
+        return result;
+    }
+};
